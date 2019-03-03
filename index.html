@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>Hello this is a test page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script>
+            var getUrlParameter = function getUrlParameter(sParam) {
+                var sPageURL = window.location.search.substring(1),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+            
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+            
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                    }
+                }
+            };
+            
+            window.onload = function(){
+                var allData = getUrlParameter('data');
+                var decoded = atob(allData); //Decode url parameter
+                var parsed = JSON.parse(decoded); //Convert decoded to json
+                var data = parsed['data']; //get data field from parsed json
+                var colorData = data['color']; //get color info
+                var tempColor = colorData[0]; //Get first element of array from color
+                for(var i = 0; i < Object.keys(tempColor).length; i++){
+                    var key = Object.keys(tempColor)[i]; //Get individual key
+                    $("#"+key).css(JSON.parse(tempColor[key])); //Apply the css on id
+                } 
+                var classData = data['class']; //Get class info
+                var tempClass = classData[0]; //Get first element of array from class
+                for(var i = 0; i < Object.keys(tempClass).length; i++){
+                    var key = Object.keys(tempClass)[i]; //Get keys from class array
+                    var classInfo = tempClass[key]; //Get class maps from array based on key
+                    $("#"+key).removeClass(classInfo['remove']); //add and remove classes from id's
+                    $("#"+key).addClass(classInfo['add']);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class = "container-fluid">
+            <div id = "main" class = "col-md-3">
+                Hello 
+            </div>
+            <div id = "question" class = "col-md-3">
+                How are you? 
+            </div>
+            <div id = "answer" class = "col-md-3">
+                Good. You? 
+            </div>
+        </div>
+        <div class = "container-fluid">
+            <div id = "hello" class = "col-md-3">
+                Hello 
+            </div>
+            <div id = "how" class = "col-md-3">
+                How are you? 
+            </div>
+        </div>
+    </body>
+</html>

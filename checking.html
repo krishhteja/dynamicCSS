@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script>
+            function register(){
+                //Create a map from textfields and send a register request
+                var data = {
+                    'name':$("#regname").val(),
+                    'main':$("#main").val(),
+                    'question':$("#question").val(),
+                    'answer':$("#answer").val(),
+                    'helloRem':$("#helloRem").val(),
+                    'helloAdd':$("#helloAdd").val(),
+                    'howRem':$("#howRem").val(),
+                    'howAdd':$("#howAdd").val()
+                }
+                jQuery.ajax({
+                    type: "POST",
+                    url: 'register',
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(data) {
+                        if(data['result']=="success"){
+                            alert("saved");
+                        }else{
+                            alert("failed");
+                        }
+                    }
+                });
+            }
+            
+            function login(){
+                var data = {'name':$("#name").val()}
+                //Send a login request
+                jQuery.ajax({
+                    type: "POST",
+                    url: 'login',
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(data) {
+                        if(data['result']=="success"){
+                            //Encode data to base64 and redirect to homepage
+                            var css = btoa(JSON.stringify(data))
+                            window.location.href = "/home?data="+css;
+                        }
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <div class = "container-fluid" style = "margin-top:50px">
+            <div class = "col-md-6"><input type = "text" placeholder = "Enter name" class = "form-control" id = "name"></div>
+            <div class = "col-md-6"><input type = "button" id = "submit" value = "Submit" onclick = "login()" class = "btn btn-primary"></div>
+        </div>
+        <div class = "container-fluid" style = "margin-top:50px;border:1px solid #ccc">
+            <div class = "col-md-12">Register</div>
+            <form id = "userPreference">
+            <div class = "col-md-6"><input type = "text" placeholder = "Enter name" class = "form-control" id = "regname"></div>
+            <div class = "col-md-6"><input type = "text" placeholder = "Main" class = "form-control" id = "main"></div>
+            <div class = "col-md-6"><input type = "text" placeholder = "question" class = "form-control" id = "question"></div>
+            <div class = "col-md-6"><input type = "text" placeholder = "answer" class = "form-control" id = "answer"></div>
+            <div class = "col-md-6"><input type = "text" placeholder = "hello Remove" class = "form-control" id = "helloRem"></div>
+            <div class = "col-md-6"><input type = "text" placeholder = "hello Add" class = "form-control" id = "helloAdd"></div>
+            <div class = "col-md-6"><input type = "text" placeholder = "how Remove" class = "form-control" id = "howRem"></div>
+            <div class = "col-md-6"><input type = "text" placeholder = "how Add" class = "form-control" id = "howAdd"></div>
+            <input type = "button" id = "regsubmit" onclick = "register()" value = "Submit" class = "btn btn-primary">
+            </form>
+        </div>
+    </body>
+</html>
