@@ -15,7 +15,7 @@ configobj==5.0.6
 contextlib2==0.5.5
 cycler==0.10.0
 decorator==4.3.0
-Django==2.1.4
+Django==2.2.13
 docutils==0.14
 Flask==1.0.2
 flickrapi==2.4.0
